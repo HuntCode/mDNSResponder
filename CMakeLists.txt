@@ -4,6 +4,9 @@ cmake_minimum_required(VERSION 3.19 FATAL_ERROR)
 # Custom config
 #set(C_PROJECT_NAME "mDNSResponder")
 
+if(CMAKE_SYSTEM_NAME STREQUAL "Android")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O2 -g  -fno-strict-aliasing  -D_GNU_SOURCE  -DHAVE_IPV6  -DHAVE_LINUX  -DNOT_HAVE_SA_LEN  -DPLATFORM_NO_RLIMIT  -DTARGET_OS_LINUX  -DUSES_NETLINK  -DMDNS_DEBUGMSGS=0 -W  -Wall  -Wextra  -Wno-array-bounds  -Wno-pointer-sign  -Wno-unused  -Wno-unused-parameter  -Werror=implicit-function-declaration")
+endif()
 #
 # Sources
 #
@@ -64,7 +67,7 @@ source_group(mDNSShared FILES ${MDNSSHARED_SOURCES})
 
 # mDNSPosix
 set(MDNSPOSIX_SOURCES
-    mDNSPosix/PosixDaemon.c
+    mDNSPosix/mDNSPosix.c
     mDNSPosix/mDNSUNP.c
     mDNSPosix/PosixDaemon.c
 )
@@ -94,7 +97,11 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Android")
 	)
 	set(MDNSD_PROJECT_NAME mdnsd)
     add_executable(${MDNSD_PROJECT_NAME} ${MDNSD_PROJECT_SOURCES})
+    
+    target_include_directories(${MDNSD_PROJECT_NAME} PRIVATE mDNSCore mDNSShared mDNSPosix)
 endif()
+
+
 
 #
 #dns_sd client library
@@ -120,9 +127,13 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Android")
 		mDNSShared/Java/JNISupport.c
     )
 	set(DNSSD_PROJECT_NAME jdns_sd)
-	target_include_directories(${DNSSD_PROJECT_NAME} PRIVATE mDNSCore mDNSShared mDNSShared/Java/ mDNSPosix)
+	
 endif()
 source_group(dns_sd FILES ${DNSSD_SOURCES})
 
 
-add_library(${DNSSD_PROJECT_NAME} ${DNSSD_SOURCES})
+add_library(${DNSSD_PROJECT_NAME} SHARED ${DNSSD_SOURCES})
+
+if(CMAKE_SYSTEM_NAME STREQUAL "Android")
+    target_include_directories(${DNSSD_PROJECT_NAME} PRIVATE mDNSCore mDNSShared mDNSShared/Java/ mDNSPosix)
+endif()
