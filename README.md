@@ -66,3 +66,13 @@ make
 ```
 
 TODO:对于多个架构分别生成到指定路径，armeabi-v7a、arm64-v8a、x86、x86_64
+
+### Windows平台
+
+进入项目目录~/mDNSResponder
+```shell
+mkdir build && cd build
+
+cmake -G "Visual Studio 17 2022" -A "Win32" ..
+
+```
