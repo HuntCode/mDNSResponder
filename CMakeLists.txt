@@ -6,7 +6,9 @@ cmake_minimum_required(VERSION 3.19 FATAL_ERROR)
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Android")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O2 -g  -fno-strict-aliasing  -D_GNU_SOURCE  -DHAVE_IPV6  -DHAVE_LINUX  -DNOT_HAVE_SA_LEN  -DPLATFORM_NO_RLIMIT  -DTARGET_OS_LINUX  -DUSES_NETLINK  -DMDNS_DEBUGMSGS=0 -W  -Wall  -Wextra  -Wno-array-bounds  -Wno-pointer-sign  -Wno-unused  -Wno-unused-parameter  -Werror=implicit-function-declaration")
+add_definitions(-DUSE_TCP_LOOPBACK )
 endif()
+
 #
 # Sources
 #
@@ -17,10 +19,6 @@ endif()
 #
 
 # mDNSCore
-#set(MDNSCORE_SOURCES
-#    fontawesome/iconhelper.h
-#    fontawesome/iconhelper.cpp
-#)
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
     set(MDNSCORE_SOURCES ${MDNSCORE_SOURCES} 
         util/mousetap/winmousetap.h
@@ -42,10 +40,6 @@ endif()
 source_group(mDNSCore FILES ${MDNSCORE_SOURCES})
 
 # mDNSShared
-#set(MDNSSHARED_SOURCES
-#    fontawesome/iconhelper.h
-#    fontawesome/iconhelper.cpp
-#)
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
     set(MDNSSHARED_SOURCES ${MDNSSHARED_SOURCES} 
         util/mousetap/winmousetap.h
@@ -106,11 +100,6 @@ endif()
 #
 #dns_sd client library
 #
-# dns_sd
-#set(DNSSD_SOURCES
-#    fontawesome/iconhelper.h
-#    fontawesome/iconhelper.cpp
-#)
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
     set(DNSSD_SOURCES ${DNSSD_SOURCES} 
         util/mousetap/winmousetap.h
