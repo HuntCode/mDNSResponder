@@ -55,7 +55,7 @@ $TOOLCHAIN/bin/$TARGET$API-clang可以赋值给CC，用于make或者cmake体系�
 
 3.进入项目目录~/mDNSResponder,在Ubuntu上执行命令
 ```shell
-make build && cd build
+mkdir build && cd build
 
 cmake -DCMAKE_TOOLCHAIN_FILE=$NDK/build/cmake/android.toolchain.cmake \
       -DANDROID_ABI="armeabi-v7a" \
