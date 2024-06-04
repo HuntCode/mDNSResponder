@@ -196,7 +196,7 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Android")
 		mDNSShared/dnssd_ipc.c
 		mDNSShared/Java/JNISupport.c
     )
-	set(DNSSD_PROJECT_NAME jdns_sd)
+	set(DNSSD_PROJECT_NAME dns_sd)
 	
 endif()
 source_group(dns_sd FILES ${DNSSD_SOURCES})
